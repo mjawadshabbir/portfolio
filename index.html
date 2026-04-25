@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codiq.dev | Premium Digital Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --primary: 37 99 235;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hero-canvas {
+            filter: contrast(110%) brightness(110%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(6 182 212);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .service-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(37 99 235);
+        }
+
+        .portfolio-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .portfolio-card:hover {
+            transform: scale(1.04);
+        }
+
+        .floating-mockup {
+            animation: floatMock 6s ease-in-out infinite;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+        
+        @keyframes floatMock {
+            0%, 100% { transform: translateY(0px) rotate(2deg); }
+            50% { transform: translateY(-30px) rotate(-2deg); }
+        }
+
+        .section-header {
+            position: relative;
+        }
+        
+        .section-header:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, rgb(37 99 235), rgb(6 182 212));
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 9999px;
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .terminal {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+</head>
+<body class="tail-container bg-zinc-950 text-white overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <!-- Logo -->
+                <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+                     class="flex items-center gap-x-3 cursor-pointer group">
+                    <div class="w-9 h-9 bg-blue-500 rounded-2xl flex items-center justify-center text-white font-bold text-3xl leading-none pt-1 rotate-12 group-active:rotate-45 transition-transform">
+                        C
+                    </div>
+                    <div>
+                        <span class="heading-font text-3xl font-semibold tracking-tighter">codiq</span>
+                        <span class="text-cyan-400 text-3xl font-light">.</span>
+                        <span class="heading-font text-3xl font-semibold tracking-tighter text-white/90">dev</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                    <a href="#services" onclick="smoothScrollTo('services')" class="nav-link text-white/80 hover:text-white">Services</a>
+                    <a href="#work" onclick="smoothScrollTo('work')" class="nav-link text-white/80 hover:text-white">Work</a>
+                    <a href="#process" onclick="smoothScrollTo('process')" class="nav-link text-white/80 hover:text-white">Process</a>
+                    <a href="#about" onclick="smoothScrollTo('about')" class="nav-link text-white/80 hover:text-white">Why Us</a>
+                    <a href="#insights" onclick="smoothScrollTo('insights')" class="nav-link text-white/80 hover:text-white">Insights</a>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <button onclick="showContactModal()"
+                            class="px-6 py-2.5 text-sm font-semibold border border-white/30 hover:border-cyan-400 rounded-3xl transition-colors flex items-center gap-x-2">
+                        <span>BOOK A CALL</span>
+                    </button>
+                    
+                    <button onclick="toggleMobileMenu()"
+                            class="md:hidden w-10 h-10 flex items-center justify-center text-white">
+                        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MOBILE MENU -->
+        <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-zinc-950 z-50 pt-20 px-6">
+            <div class="flex flex-col gap-y-6 text-xl font-medium">
+                <a onclick="toggleMobileMenu();smoothScrollTo('services')" class="py-4 border-b border-white/10">Services</a>
+                <a onclick="toggleMobileMenu();smoothScrollTo('work')" class="py-4 border-b border-white/10">Our Work</a>
+                <a onclick="toggleMobileMenu();smoothScrollTo('process')" class="py-4 border-b border-white/10">Process</a>
+                <a onclick="toggleMobileMenu();smoothScrollTo('about')" class="py-4 border-b border-white/10">Why Codiq</a>
+                <a onclick="toggleMobileMenu();smoothScrollTo('insights')" class="py-4 border-b border-white/10">Journal</a>
+                
+                <div class="mt-8">
+                    <button onclick="toggleMobileMenu();showContactModal()" 
+                            class="w-full py-6 bg-white text-zinc-900 rounded-3xl font-semibold text-lg">
+                        START A PROJECT
+                    </button>
+                </div>
+                
+                <div class="text-xs text-white/40 mt-auto pb-12 text-center">
+                    SAN FRANCISCO • LONDON • SINGAPORE
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="min-h-screen relative flex items-center pt-16">
+        <!-- THREE.JS CANVAS -->
+        <canvas id="hero-canvas" class="hero-canvas absolute inset-0 w-full h-full z-0"></canvas>
+        
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-zinc-950/40 via-zinc-950/30 to-zinc-950/80 z-10"></div>
+        
+        <!-- Floating UI elements -->
+        <div class="absolute top-1/4 left-10 hidden xl:block z-30">
+            <div onclick="fakeClick(this)" 
+                 class="floating-mockup bg-zinc-900 border border-cyan-400/30 w-48 h-64 rounded-3xl overflow-hidden shadow-2xl rotate-[-8deg]">
+                <div class="h-8 bg-black flex items-center px-3 gap-1">
+                    <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                </div>
+                <div class="p-4">
+                    <div class="h-4 w-28 bg-cyan-400/20 rounded mb-6"></div>
+                    <div class="space-y-3">
+                        <div class="h-2 bg-white/10 rounded"></div>
+                        <div class="h-2 bg-white/10 rounded w-4/5"></div>
+                        <div class="h-2 bg-white/10 rounded"></div>
+                    </div>
+                    <div class="mt-8 bg-violet-500 h-28 rounded-2xl flex items-center justify-center text-[10px] text-white/70 font-mono">
+                        AI CHAT
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-1/3 right-12 hidden lg:block z-30">
+            <div onclick="fakeClick(this)" 
+                 class="floating-mockup bg-white/5 border border-blue-300/30 w-40 h-80 rounded-3xl overflow-hidden shadow-2xl rotate-[12deg] scale-90"
+                 style="animation-delay: 2.3s">
+                <img src="https://picsum.photos/id/1015/400/700" alt="" class="object-cover h-full w-full opacity-75">
+                <div class="absolute bottom-6 left-6 right-6 bg-black/70 text-white text-xs p-4 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <div class="text-cyan-400 text-[10px]">Q3 REPORT</div>
+                        <div class="text-sm">+184%</div>
+                    </div>
+                    <div class="w-8 h-8 bg-emerald-400 rounded-2xl flex items-center justify-center text-xs">↑</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute top-1/3 right-1/4 hidden 2xl:block z-20">
+            <div class="glass border border-white/10 px-5 py-3 rounded-3xl flex items-center gap-x-4 shadow-2xl" 
+                 style="animation-delay: 1.1s">
+                <div class="w-6 h-6 bg-purple-400 rounded-2xl flex items-center justify-center text-[10px] font-bold">AI</div>
+                <div class="text-xs leading-none">
+                    <div class="text-white">Chatbot active</div>
+                    <div class="text-emerald-400 text-[10px]">98% response rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-16 grid grid-cols-12 gap-8 relative z-20">
+            <div class="col-span-12 lg:col-span-7 xl:col-span-6 flex flex-col justify-center min-h-screen lg:min-h-0 pt-20 lg:pt-0">
+                <div class="inline-flex items-center gap-x-2 bg-white/5 text-white/70 text-xs tracking-[0.125em] font-medium px-5 h-7 rounded-3xl mb-6 border border-white/10">
+                    <div class="w-2 h-2 bg-cyan-400 animate-pulse rounded-full"></div>
+                    NOW HIRING AI ENGINEERS
+                </div>
+                
+                <h1 class="heading-font text-7xl md:text-8xl font-semibold tracking-tighter leading-none mb-2">
+                    BUILD<br>SMARTER.<br><span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">GROW FASTER.</span>
+                </h1>
+                
+                <p class="max-w-md text-xl text-white/70 mt-6">
+                    Premium web, mobile and AI solutions for ambitious brands and forward-thinking enterprises.
+                </p>
+                
+                <div class="flex items-center gap-x-4 mt-12">
+                    <button onclick="smoothScrollTo('work')" 
+                            class="px-10 py-6 bg-white text-zinc-900 hover:bg-amber-200 transition-all rounded-3xl font-semibold flex items-center justify-center gap-x-3 group">
+                        <span class="text-lg">VIEW OUR WORK</span>
+                        <span class="block w-3 h-3 bg-emerald-400 rounded-full group-active:animate-ping"></span>
+                    </button>
+                    
+                    <button onclick="showContactModal()" 
+                            class="px-8 py-6 border border-white/30 hover:border-white/70 transition-all rounded-3xl font-medium flex items-center gap-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M5 12h14" />
+                        </svg>
+                        <span>BOOK CONSULTATION</span>
+                    </button>
+                </div>
+                
+                <div class="mt-16 flex items-center gap-x-8 text-xs">
+                    <div class="flex -space-x-4">
+                        <div class="w-6 h-6 bg-blue-400 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">🇺🇸</div>
+                        <div class="w-6 h-6 bg-purple-400 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">🇬🇧</div>
+                        <div class="w-6 h-6 bg-teal-400 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">🇸🇬</div>
+                    </div>
+                    <div class="text-white/40 text-[10px] leading-tight">
+                        TRUSTED BY<br>
+                        <span class="text-white/70">SCALEUPS IN 14 COUNTRIES</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- RIGHT SIDE VISUAL INDICATOR -->
+            <div class="hidden lg:flex col-span-5 xl:col-span-6 items-center justify-center relative">
+                <div class="relative w-96 h-96">
+                    <!-- Orbit rings -->
+                    <div class="absolute inset-0 border border-white/10 rounded-full animate-[spin_25s_linear_infinite]"></div>
+                    <div class="absolute inset-8 border border-white/10 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                    <div class="absolute inset-16 border border-cyan-400/20 rounded-full animate-[spin_35s_linear_infinite]"></div>
+                    
+                    <!-- Center badge -->
+                    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-zinc-900 border border-cyan-300/30 rounded-3xl flex items-center justify-center z-10 shadow-inner">
+                        <div class="text-center">
+                            <div id="bot-status" 
+                                 class="terminal text-[10px] bg-black text-cyan-400 px-5 py-1 rounded-3xl inline-block mb-3 tracking-widest">
+                                NEURAL CORE ONLINE
+                            </div>
+                            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-inner">
+                                <span class="text-5xl">🤖</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SCROLL INDICATOR -->
+        <div class="absolute bottom-12 left-1/2 flex flex-col items-center gap-y-3 z-30">
+            <div class="text-[10px] font-mono tracking-[1px] text-white/30">SCROLL FOR WISDOM</div>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+        </div>
+        
+        <!-- TRUST BAR -->
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-black/30 backdrop-blur-md border-t border-white/10 flex items-center z-30">
+            <div class="max-w-screen-2xl mx-auto w-full px-8 grid grid-cols-3 md:grid-cols-6 gap-6 text-center text-xs">
+                <div class="flex flex-col items-center">
+                    <span class="text-emerald-400 font-mono text-xl font-medium">42</span>
+                    <span class="text-white/40 text-[10px]">PROJECTS DELIVERED</span>
+                </div>
+                <div class="flex flex-col items-center border-l border-white/10">
+                    <span class="text-emerald-400 font-mono text-xl font-medium">100</span>
+                    <span class="text-white/40 text-[10px]">SATISFIED CLIENTS</span>
+                </div>
+                <div class="flex flex-col items-center border-l border-white/10">
+                    <span class="text-emerald-400 font-mono text-xl font-medium">4.98</span>
+                    <span class="text-white/40 text-[10px]">AVERAGE RATING</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center border-l border-white/10">
+                    <span class="text-purple-400 font-mono text-xl font-medium">AI</span>
+                    <span class="text-white/40 text-[10px]">ENABLED SOLUTIONS</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center border-l border-white/10">
+                    <span class="text-cyan-400 font-mono text-xl font-medium">14</span>
+                    <span class="text-white/40 text-[10px]">COUNTRIES SERVED</span>
+                </div>
+                <div class="hidden md:flex flex-col items-center border-l border-white/10">
+                    <span class="text-amber-400 font-mono text-xl font-medium">∞</span>
+                    <span class="text-white/40 text-[10px]">POSSIBILITIES</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BRAND DECOR -->
+        <div class="absolute top-12 right-12 text-[180px] font-black text-white/5 heading-font select-none pointer-events-none">C</div>
+    </header>
+
+    <!-- CLIENT LOGOS -->
+    <div class="py-8 bg-black border-b border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex flex-wrap justify-center items-center gap-x-12 md:gap-x-20 opacity-30 grayscale">
+                <div class="text-xl heading-font">STRIPE</div>
+                <div class="text-xl heading-font">OPENAI</div>
+                <div class="text-2xl font-light">notion</div>
+                <div class="text-xl heading-font">webflow</div>
+                <div class="text-xl heading-font">perplexity</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-28 bg-zinc-950 relative">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid grid-cols-12 gap-8">
+                <!-- Left label -->
+                <div class="col-span-12 lg:col-span-4">
+                    <div class="sticky top-28">
+                        <div class="inline text-cyan-400 text-sm font-medium tracking-widest">CAPABILITIES</div>
+                        <h2 class="heading-font text-6xl tracking-tighter font-semibold text-white mt-3 leading-none">
+                            WHAT WE<br>BUILD
+                        </h2>
+                        <p class="mt-6 text-white/60 max-w-xs">
+                            From pixel-perfect interfaces to intelligent AI agents, we craft digital experiences that scale.
+                        </p>
+                        
+                        <button onclick="smoothScrollTo('work')" 
+                                class="mt-12 flex items-center gap-x-4 group">
+                            <span class="text-sm font-medium">EXPLORE OUR WORK</span>
+                            <div class="h-px w-12 bg-white/30 group-hover:bg-cyan-400 transition-colors"></div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Service cards -->
+                <div class="col-span-12 lg:col-span-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Card 1 -->
+                        <div onclick="viewServiceDetail(0)" 
+                             class="service-card bg-zinc-900 border border-white/5 hover:border-blue-500/30 rounded-3xl p-8 cursor-pointer group">
+                            <div class="h-10 w-10 flex items-center justify-center bg-blue-500/10 text-blue-400 rounded-2xl mb-8 group-active:scale-90 transition-transform">
+                                🌐
+                            </div>
+                            <div class="heading-font text-3xl font-medium mb-2">Web Development</div>
+                            <div class="text-white/60 text-[15px]">
+                                Blazing-fast, conversion-optimized websites and web applications using modern frameworks.
+                            </div>
+                            <div class="flex gap-x-2 mt-12 text-xs">
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Next.js</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Tailwind</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Framer</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div onclick="viewServiceDetail(1)" 
+                             class="service-card bg-zinc-900 border border-white/5 hover:border-purple-500/30 rounded-3xl p-8 cursor-pointer group">
+                            <div class="h-10 w-10 flex items-center justify-center bg-purple-500/10 text-purple-400 rounded-2xl mb-8 group-active:scale-90 transition-transform">
+                                📱
+                            </div>
+                            <div class="heading-font text-3xl font-medium mb-2">Mobile Applications</div>
+                            <div class="text-white/60 text-[15px]">
+                                Native and cross-platform mobile apps that deliver delightful user experiences on every device.
+                            </div>
+                            <div class="flex gap-x-2 mt-12 text-xs">
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">React Native</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Flutter</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">SwiftUI</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3 -->
+                        <div onclick="viewServiceDetail(2)" 
+                             class="service-card bg-zinc-900 border border-white/5 hover:border-cyan-500/30 rounded-3xl p-8 cursor-pointer group">
+                            <div class="h-10 w-10 flex items-center justify-center bg-cyan-500/10 text-cyan-400 rounded-2xl mb-8 group-active:scale-90 transition-transform">
+                                🧠
+                            </div>
+                            <div class="heading-font text-3xl font-medium mb-2">AI &amp; Chatbots</div>
+                            <div class="text-white/60 text-[15px]">
+                                Intelligent conversational agents, automation pipelines and custom LLM integrations.
+                            </div>
+                            <div class="flex gap-x-2 mt-12 text-xs">
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">LangChain</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">OpenAI</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Vector DB</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4 -->
+                        <div onclick="viewServiceDetail(3)" 
+                             class="service-card bg-zinc-900 border border-white/5 hover:border-violet-500/30 rounded-3xl p-8 cursor-pointer group">
+                            <div class="h-10 w-10 flex items-center justify-center bg-violet-500/10 text-violet-400 rounded-2xl mb-8 group-active:scale-90 transition-transform">
+                                🎨
+                            </div>
+                            <div class="heading-font text-3xl font-medium mb-2">UI / UX Design</div>
+                            <div class="text-white/60 text-[15px]">
+                                Human-centered interfaces with obsessive attention to detail and delightful micro-interactions.
+                            </div>
+                            <div class="flex gap-x-2 mt-12 text-xs">
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Figma</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Framer Motion</div>
+                                <div class="bg-white/5 px-4 py-2 rounded-3xl">Principle</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI FEATURE SHOWCASE -->
+    <section class="bg-black py-20 relative overflow-hidden">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid grid-cols-12 gap-16 items-center">
+                <div class="col-span-12 lg:col-span-7">
+                    <div class="aspect-video bg-zinc-900 rounded-3xl overflow-hidden border border-white/10 relative">
+                        <!-- Terminal simulation -->
+                        <div class="absolute inset-0 p-8 font-mono text-xs text-emerald-300 flex flex-col">
+                            <div class="flex justify-between text-white/30 text-[10px] mb-6">
+                                <div>ai-assistant.tsx • LIVE</div>
+                                <div class="flex items-center gap-x-5">
+                                    <div class="flex items-center gap-x-1.5">
+                                        <div class="w-3 h-px bg-emerald-400"></div>
+                                        <span>CONNECTED</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-1 space-y-5 text-white/80">
+                                <div>&gt; Initializing neural interface...</div>
+                                <div class="pl-4 text-cyan-300">✓ Model loaded (gpt-4o-mini)</div>
+                                <div>&gt; Customer query detected: "How do I upgrade my plan?"</div>
+                                <div class="pl-4 text-amber-300">→ Qualifying intent...</div>
+                                <div class="pl-8 text-violet-300">✓ Lead scored: 92</div>
+                                <div class="pl-4 mt-8 text-white">Hello! I'd be happy to help you upgrade your subscription.</div>
+                                <div class="pl-4 text-white">Would you like to see our latest enterprise features?</div>
+                            </div>
+                            
+                            <div class="h-8 bg-zinc-950 border-t border-white/10 flex items-center px-4 text-white/40 text-[10px]">
+                                <div class="flex-1">codiq-ai-agent • v0.8.4</div>
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Overlay label -->
+                        <div class="absolute top-8 right-8 bg-black/70 text-white text-xs px-6 py-3 rounded-3xl flex items-center gap-x-2">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                            </span>
+                            LIVE DEMO
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-span-12 lg:col-span-5">
+                    <div class="max-w-xs">
+                        <span class="px-4 py-2 bg-white/5 text-cyan-400 text-xs rounded-3xl">NEW</span>
+                        <h2 class="heading-font text-5xl font-medium tracking-tighter leading-none mt-6">
+                            AI that works while you sleep
+                        </h2>
+                        <ul class="mt-10 space-y-8">
+                            <li class="flex gap-x-5">
+                                <span class="font-mono text-4xl text-white/10">01</span>
+                                <div>
+                                    <div class="font-semibold">24/7 Autonomous Support</div>
+                                    <div class="text-white/60 text-sm">Handles thousands of conversations simultaneously.</div>
+                                </div>
+                            </li>
+                            <li class="flex gap-x-5">
+                                <span class="font-mono text-4xl text-white/10">02</span>
+                                <div>
+                                    <div class="font-semibold">Intelligent Lead Routing</div>
+                                    <div class="text-white/60 text-sm">Qualifies prospects and books meetings automatically.</div>
+                                </div>
+                            </li>
+                            <li class="flex gap-x-5">
+                                <span class="font-mono text-4xl text-white/10">03</span>
+                                <div>
+                                    <div class="font-semibold">Seamless CRM Sync</div>
+                                    <div class="text-white/60 text-sm">Pushes enriched data directly into your existing tools.</div>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="viewServiceDetail(2)" 
+                                class="mt-16 text-sm border-b border-dotted border-cyan-400 pb-1 inline-flex items-center gap-x-2 hover:gap-x-4 transition-all">
+                            <span>SEE THE AI IN ACTION</span>
+                            <span class="text-xl leading-none">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO / WORK -->
+    <section id="work" class="py-28 bg-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex justify-between items-baseline border-b border-white/10 pb-6">
+                <div>
+                    <span class="text-xs uppercase font-medium text-violet-400">Featured Projects</span>
+                    <h2 class="heading-font text-6xl font-semibold tracking-tighter">Recent Work</h2>
+                </div>
+                <a onclick="smoothScrollTo('work');viewAllWork()" 
+                   class="hidden md:flex items-center text-xs gap-x-3 group cursor-pointer">
+                    <span class="uppercase">All case studies</span>
+                    <div class="transition-transform group-active:rotate-45">→</div>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-12">
+                <!-- Project 1 -->
+                <div onclick="showProjectModal(0)" class="portfolio-card group cursor-pointer">
+                    <div class="relative rounded-3xl overflow-hidden aspect-video bg-zinc-800">
+                        <div class="absolute inset-0 bg-[radial-gradient(at_center,#4f46e510_30%,transparent)]"></div>
+                        <img src="https://picsum.photos/id/201/900/600" alt="Project" 
+                             class="w-full h-full object-cover transition-all group-hover:scale-105">
+                        <div class="absolute top-6 left-6 bg-black/70 text-xs px-5 py-2 rounded-3xl">FINANCE</div>
+                    </div>
+                    <div class="mt-6 flex justify-between items-baseline">
+                        <div>
+                            <div class="text-xl font-medium">Pulse • Banking OS</div>
+                            <div class="text-white/40 text-sm">Modern treasury platform for startups</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs bg-white/10 text-white/60 px-3 py-1 rounded-3xl">2024</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-cyan-300 mt-4 flex gap-x-3">
+                        <div>NEXT.JS</div>
+                        <div>RECHARTS</div>
+                        <div>PLAID</div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div onclick="showProjectModal(1)" class="portfolio-card group cursor-pointer">
+                    <div class="relative rounded-3xl overflow-hidden aspect-video bg-zinc-800">
+                        <div class="absolute inset-0 bg-[radial-gradient(at_center,#a855f710_40%,transparent)]"></div>
+                        <img src="https://picsum.photos/id/29/900/600" alt="Project" 
+                             class="w-full h-full object-cover transition-all group-hover:scale-105">
+                        <div class="absolute top-6 left-6 bg-black/70 text-xs px-5 py-2 rounded-3xl">HEALTHCARE</div>
+                    </div>
+                    <div class="mt-6 flex justify-between items-baseline">
+                        <div>
+                            <div class="text-xl font-medium">Vita • AI Health Coach</div>
+                            <div class="text-white/40 text-sm">Personalized wellness companion</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs bg-white/10 text-white/60 px-3 py-1 rounded-3xl">2024</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-purple-300 mt-4 flex gap-x-3">
+                        <div>REACT NATIVE</div>
+                        <div>TENSORFLOW</div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div onclick="showProjectModal(2)" class="portfolio-card group cursor-pointer">
+                    <div class="relative rounded-3xl overflow-hidden aspect-video bg-zinc-800">
+                        <div class="absolute inset-0 bg-[radial-gradient(at_center,#22d3ee10_30%,transparent)]"></div>
+                        <img src="https://picsum.photos/id/160/900/600" alt="Project" 
+                             class="w-full h-full object-cover transition-all group-hover:scale-105">
+                        <div class="absolute top-6 left-6 bg-black/70 text-xs px-5 py-2 rounded-3xl">SAAS</div>
+                    </div>
+                    <div class="mt-6 flex justify-between items-baseline">
+                        <div>
+                            <div class="text-xl font-medium">Lumina • Content Engine</div>
+                            <div class="text-white/40 text-sm">AI-powered marketing suite</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs bg-white/10 text-white/60 px-3 py-1 rounded-3xl">2023</div>
+                        </div>
+                    </div>
+                    <div class="text-xs text-blue-300 mt-4 flex gap-x-3">
+                        <div>THREE.JS</div>
+                        <div>NODE</div>
+                        <div>POSTGRES</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="py-28 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="text-center">
+                <span class="text-xs tracking-widest text-blue-400">METHODOLOGY</span>
+                <h2 class="heading-font text-6xl font-medium tracking-tighter mt-2">Our 6-step process</h2>
+            </div>
+            
+            <div class="mt-20 max-w-5xl mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-white/5 rounded-3xl overflow-hidden">
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">01 • DISCOVERY</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">D</div>
+                        <div class="mt-6 text-sm">Deep dive into your business goals, audience and competitive landscape.</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">02 • STRATEGY</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">S</div>
+                        <div class="mt-6 text-sm">Craft a clear product vision and technical architecture.</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">03 • DESIGN</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">D</div>
+                        <div class="mt-6 text-sm">Create beautiful, intuitive interfaces with user testing.</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">04 • BUILD</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">B</div>
+                        <div class="mt-6 text-sm">Agile engineering with continuous integration and QA.</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">05 • LAUNCH</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">L</div>
+                        <div class="mt-6 text-sm">Comprehensive testing, monitoring and marketing support.</div>
+                    </div>
+                    <div class="bg-zinc-900 p-8 transition-all hover:bg-zinc-800 group">
+                        <div class="text-cyan-400 text-xs font-medium mb-6">06 • SCALE</div>
+                        <div class="heading-font text-6xl text-white/10 group-hover:text-white/30 transition-colors">S</div>
+                        <div class="mt-6 text-sm">Post-launch optimization, feature iteration and growth support.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section id="about" class="py-24 bg-black">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid grid-cols-12 gap-y-16">
+                <div class="col-span-12 lg:col-span-5">
+                    <div class="max-w-xs">
+                        <div class="uppercase text-xs text-violet-400">OUR EDGE</div>
+                        <h2 class="heading-font text-6xl leading-none font-medium tracking-tighter mt-4">Why the world's most ambitious teams choose Codiq</h2>
+                    </div>
+                </div>
+                
+                <div class="col-span-12 lg:col-span-7">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="p-8 rounded-3xl border border-white/10 hover:border-white/40 transition-colors">
+                            <div class="text-6xl mb-6">🚀</div>
+                            <div class="font-semibold text-xl">Lightning delivery</div>
+                            <div class="mt-3 text-white/60">We ship production-grade software in weeks, not months.</div>
+                        </div>
+                        <div class="p-8 rounded-3xl border border-white/10 hover:border-white/40 transition-colors">
+                            <div class="text-6xl mb-6">🧩</div>
+                            <div class="font-semibold text-xl">Future-proof architecture</div>
+                            <div class="mt-3 text-white/60">Built with scalability, security and AI-readiness in mind.</div>
+                        </div>
+                        <div class="p-8 rounded-3xl border border-white/10 hover:border-white/40 transition-colors">
+                            <div class="text-6xl mb-6">📍</div>
+                            <div class="font-semibold text-xl">Global yet personal</div>
+                            <div class="mt-3 text-white/60">Distributed team across three continents with 24/7 availability.</div>
+                        </div>
+                        <div class="p-8 rounded-3xl border border-white/10 hover:border-white/40 transition-colors">
+                            <div class="text-6xl mb-6">📈</div>
+                            <div class="font-semibold text-xl">ROI obsessed</div>
+                            <div class="mt-3 text-white/60">Every decision is measured by business impact and growth metrics.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="insights" class="py-28 bg-zinc-950">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex items-end justify-between mb-10">
+                <div class="heading-font text-5xl font-medium">Voices from the frontier</div>
+                <div class="flex items-center gap-x-2 text-xs">
+                    <button onclick="prevTestimonial()" 
+                            class="w-10 h-10 flex items-center justify-center border border-white/30 hover:border-white rounded-2xl transition-colors">←</button>
+                    <button onclick="nextTestimonial()" 
+                            class="w-10 h-10 flex items-center justify-center border border-white/30 hover:border-white rounded-2xl transition-colors">→</button>
+                </div>
+            </div>
+            
+            <div id="testimonial-container" class="grid grid-cols-1 lg:grid-cols-3 gap-8 transition-opacity">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 bg-black">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-center heading-font text-5xl font-medium tracking-tight mb-16">Frequently asked questions</h2>
+                
+                <div id="faq-list" class="space-y-px">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="bg-gradient-to-r from-blue-600 to-violet-600 py-20">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 p-16 text-center">
+                <div class="max-w-lg mx-auto">
+                    <span class="px-6 py-2 text-xs bg-white/20 text-white rounded-3xl">FINAL STEP</span>
+                    <h2 class="heading-font text-6xl font-medium tracking-tighter text-white mt-6 leading-none">
+                        Ready to build something exceptional?
+                    </h2>
+                    <p class="mt-6 text-white/80">
+                        Let's discuss how we can help you accelerate growth with beautiful digital products and intelligent automation.
+                    </p>
+                    <button onclick="showContactModal()" 
+                            class="mt-10 px-16 py-7 bg-white text-zinc-900 rounded-3xl text-xl font-semibold inline-flex items-center gap-x-4 hover:shadow-2xl hover:shadow-white/20 transition-all active:scale-95">
+                        START PROJECT
+                        <span class="text-4xl leading-none -mt-2">↗</span>
+                    </button>
+                    <div class="text-xs text-white/30 mt-8">Average response time: 11 minutes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black pt-16">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="grid grid-cols-12 gap-y-16">
+                <!-- Col 1 -->
+                <div class="col-span-12 md:col-span-5">
+                    <div class="flex items-center gap-x-3 text-4xl">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-cyan-400 text-white rounded-3xl flex items-center justify-center text-5xl leading-none rotate-12">C</div>
+                        <div class="heading-font font-semibold tracking-tighter">codiq.dev</div>
+                    </div>
+                    <p class="text-white/40 max-w-xs mt-6">
+                        Digital products and AI solutions for the most ambitious companies on the planet.
+                    </p>
+                    
+                    <div class="mt-12 text-xs flex items-center gap-x-8">
+                        <div class="flex items-center gap-x-5">
+                            <a href="#" class="hover:text-cyan-300 transition-colors">𝕏</a>
+                            <a href="#" class="hover:text-cyan-300 transition-colors">𝕃</a>
+                            <a href="#" class="hover:text-cyan-300 transition-colors">𝔻</a>
+                        </div>
+                        <div class="text-white/30">© 2025 CODIQ TECHNOLOGIES LTD</div>
+                    </div>
+                </div>
+                
+                <!-- Col 2 -->
+                <div class="col-span-6 md:col-span-2">
+                    <div class="uppercase text-xs font-medium text-white/30 mb-8">Company</div>
+                    <div class="flex flex-col gap-y-6 text-sm">
+                        <a href="#" class="hover:text-white transition-colors">Manifesto</a>
+                        <a href="#" class="hover:text-white transition-colors">Journal</a>
+                        <a href="#" class="hover:text-white transition-colors">Careers</a>
+                        <a href="#" class="hover:text-white transition-colors">Contact</a>
+                    </div>
+                </div>
+                
+                <!-- Col 3 -->
+                <div class="col-span-6 md:col-span-2">
+                    <div class="uppercase text-xs font-medium text-white/30 mb-8">Services</div>
+                    <div class="flex flex-col gap-y-6 text-sm">
+                        <a href="#" onclick="smoothScrollTo('services');return false" class="hover:text-white transition-colors">Web Platforms</a>
+                        <a href="#" onclick="smoothScrollTo('services');return false" class="hover:text-white transition-colors">Mobile Products</a>
+                        <a href="#" onclick="smoothScrollTo('services');return false" class="hover:text-white transition-colors">AI Systems</a>
+                        <a href="#" onclick="smoothScrollTo('services');return false" class="hover:text-white transition-colors">Brand Systems</a>
+                    </div>
+                </div>
+                
+                <!-- Col 4 -->
+                <div class="col-span-12 md:col-span-3">
+                    <div class="rounded-3xl bg-zinc-900 p-8">
+                        <div class="text-xs font-medium text-white/60">NEXT OPEN HOUSE</div>
+                        <div class="mt-6 text-5xl font-light tabular-nums text-white">03.18</div>
+                        <div class="text-cyan-400 text-sm">SAN FRANCISCO, CA</div>
+                        
+                        <button onclick="showContactModal()" 
+                                class="mt-12 text-xs border border-white/40 hover:bg-white/5 w-full py-6 rounded-3xl transition-colors">
+                            REGISTER FOR EVENT
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 text-[10px] text-white/30 leading-loose">
+                        1234 MARKET STREET<br>
+                        SUITE 800<br>
+                        SAN FRANCISCO, CALIFORNIA
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom bar -->
+            <div class="text-white/30 text-xs flex flex-col md:flex-row justify-between items-center gap-y-4 mt-24 pt-8 border-t border-white/10">
+                <div>Made with precision in California • London • Remote</div>
+                <div class="flex items-center gap-x-6">
+                    <div onclick="window.scrollTo(0,0)" class="cursor-pointer">↑ BACK TO TOP</div>
+                    <div class="h-px w-6 bg-white/30"></div>
+                    <div>PRIVACY POLICY</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PROJECT MODAL -->
+    <div onclick="if(event.target.id === 'project-modal') hideProjectModal()" id="project-modal" 
+         class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="max-w-2xl w-full mx-4 bg-zinc-900 rounded-3xl overflow-hidden">
+            <div id="modal-image" class="h-80 bg-cover bg-center relative">
+                <button onclick="hideProjectModal()" 
+                        class="absolute top-6 right-6 w-8 h-8 bg-black/60 hover:bg-black text-white flex items-center justify-center rounded-full text-xs">✕</button>
+            </div>
+            <div class="p-8">
+                <div id="modal-category" class="uppercase text-xs tracking-widest text-teal-400"></div>
+                <div id="modal-title" class="heading-font text-4xl mt-1"></div>
+                <div id="modal-desc" class="text-white/60 mt-4"></div>
+                
+                <div class="flex gap-8 text-xs mt-12">
+                    <div>
+                        <div class="text-white/30">DELIVERED</div>
+                        <div id="modal-date" class="font-medium text-lg">March 2024</div>
+                    </div>
+                    <div>
+                        <div class="text-white/30">TECH</div>
+                        <div id="modal-tech" class="font-medium"></div>
+                    </div>
+                </div>
+                
+                <div onclick="hideProjectModal()" 
+                     class="cursor-pointer mt-10 text-xs border border-dashed border-white/30 hover:border-white/70 transition-colors w-fit px-6 py-6 rounded-3xl">
+                    VIEW FULL CASE STUDY →
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div onclick="if(event.target.id === 'contact-modal') hideContactModal()" id="contact-modal"
+         class="hidden fixed inset-0 bg-black/70 z-[99999] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="max-w-lg w-full mx-5 bg-zinc-900 rounded-3xl">
+            <div class="px-8 pt-8 pb-4">
+                <div class="flex justify-between">
+                    <div class="heading-font text-4xl">Let's talk.</div>
+                    <button onclick="hideContactModal()" class="text-4xl leading-none text-white/30 hover:text-white">×</button>
+                </div>
+                <div class="text-white/50">Tell us about your project</div>
+            </div>
+            
+            <form id="contact-form" onsubmit="handleSubmit(event)" class="p-8 space-y-8">
+                <div>
+                    <label class="block text-xs mb-3 text-white/40">YOUR NAME</label>
+                    <input id="name" type="text" required
+                           class="w-full bg-transparent border-b border-white/30 focus:border-cyan-400 outline-none py-4 text-lg placeholder:text-white/20">
+                </div>
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <label class="block text-xs mb-3 text-white/40">COMPANY</label>
+                        <input id="company" type="text"
+                               class="w-full bg-transparent border-b border-white/30 focus:border-cyan-400 outline-none py-4 text-lg placeholder:text-white/20">
+                    </div>
+                    <div>
+                        <label class="block text-xs mb-3 text-white/40">EMAIL</label>
+                        <input id="email" type="email" required
+                               class="w-full bg-transparent border-b border-white/30 focus:border-cyan-400 outline-none py-4 text-lg placeholder:text-white/20">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs mb-3 text-white/40">TELL US ABOUT YOUR PROJECT</label>
+                    <textarea id="message" rows="5" required
+                              class="w-full bg-transparent border border-white/20 focus:border-cyan-400 rounded-3xl p-6 outline-none resize-none"></textarea>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="submit"
+                            class="w-full py-8 text-center bg-white text-zinc-950 rounded-3xl text-xl font-semibold">
+                        SEND MESSAGE
+                    </button>
+                </div>
+            </form>
+            
+            <div class="text-center py-6 text-xs text-white/30">
+                OR EMAIL US DIRECTLY AT <span class="text-cyan-400">HELLO@CODIQ.DEV</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script run
+        function initializeTailwind() {
+            tailwind.config = {
+                content: [],
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // THREE.JS SCENE
+        let scene, camera, renderer;
+        let mainMesh, particleSystem;
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        
+        function initThree() {
+            const canvas = document.getElementById("hero-canvas");
+            if (!canvas) return;
+            
+            renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = false;
+            
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(
+                50,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                100
+            );
+            camera.position.set(0, 0, 6);
+            
+            // LIGHTS
+            const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.6);
+            scene.add(ambientLight);
+            
+            const pointLight1 = new THREE.PointLight(0x22d3ee, 3, 50);
+            pointLight1.position.set(5, 8, 12);
+            scene.add(pointLight1);
+            
+            const pointLight2 = new THREE.PointLight(0xa855f7, 2.5, 50);
+            pointLight2.position.set(-10, -5, 8);
+            scene.add(pointLight2);
+            
+            // MAIN OBJECT - Torus knot (futuristic)
+            const knotGeometry = new THREE.TorusKnotGeometry(1.4, 0.45, 220, 32, 3, 7);
+            const knotMaterial = new THREE.MeshPhongMaterial({
+                color: 0x2563eb,
+                emissive: 0x06b6d4,
+                shininess: 12,
+                specular: 0xffffff,
+                flatShading: false
+            });
+            mainMesh = new THREE.Mesh(knotGeometry, knotMaterial);
+            scene.add(mainMesh);
+            
+            // Additional geometric accent
+            const sphereGeo = new THREE.IcosahedronGeometry(0.6, 2);
+            const sphereMat = new THREE.MeshPhongMaterial({
+                color: 0x8b5cf6,
+                emissive: 0xc026d3,
+                wireframe: true,
+                shininess: 2
+            });
+            const accentSphere = new THREE.Mesh(sphereGeo, sphereMat);
+            accentSphere.position.set(2.2, 1.2, 0.6);
+            scene.add(accentSphere);
+            mainMesh.userData.accent = accentSphere;
+            
+            // Particles
+            const particleCount = 2200;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                const radius = 6 + Math.random() * 4;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+                
+                positions[i]     = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i + 2] = radius * Math.cos(phi);
+                
+                // Color variation between cyan and purple
+                const intensity = Math.random();
+                colors[i]     = 0.1 + intensity * 0.6;     // R
+                colors[i + 1] = 0.6 + intensity * 0.4;     // G
+                colors[i + 2] = 0.9;                        // B
+            }
+            
+            const particleGeometry = new THREE.BufferGeometry();
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.035,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.75,
+                blending: THREE.AdditiveBlending
+            });
+            
+            particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particleSystem);
+            
+            // Resize listener
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // Mouse move
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Touch support
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+                    mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+                }
+            });
+            
+            animateThree();
+        }
+        
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            
+            if (!mainMesh || !particleSystem) return;
+            
+            // Gentle rotation on main mesh
+            mainMesh.rotation.x = Date.now() * 0.0002;
+            mainMesh.rotation.y = Date.now() * 0.00035;
+            
+            // Accent mesh orbits
+            if (mainMesh.userData.accent) {
+                const time = Date.now() * 0.0012;
+                mainMesh.userData.accent.position.x = Math.cos(time) * 2.8;
+                mainMesh.userData.accent.position.z = Math.sin(time) * 2.8;
+                mainMesh.userData.accent.rotation.y = time * 2;
+            }
+            
+            // Particle gentle rotation
+            particleSystem.rotation.y = Date.now() * 0.00008;
+            
+            // Mouse interaction
+            targetX = mouseX * 0.6;
+            targetY = mouseY * 0.6;
+            
+            camera.position.x += (targetX - camera.position.x) * 0.035;
+            camera.position.y += (targetY * 0.6 - camera.position.y) * 0.035;
+            camera.lookAt(0, 0, 0);
+            
+            // Pulsate light intensity
+            const intensity = 2.5 + Math.sin(Date.now() / 700) * 0.6;
+            scene.children.forEach(child => {
+                if (child.type === "PointLight") {
+                    child.intensity = intensity;
+                }
+            });
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Testimonial data
+        const testimonials = [
+            {
+                quote: "Codiq completely transformed how we interact with our customers. Their AI chatbot increased our conversion rate by 340%.",
+                name: "Elena Voss",
+                title: "CEO, Lumora Health",
+                avatar: "🧬"
+            },
+            {
+                quote: "Working with Codiq felt like having an entire product team in-house. Their attention to pixel-perfect detail is unmatched.",
+                name: "Marcus Rivera",
+                title: "Founder, ArcForge",
+                avatar: "🏗️"
+            },
+            {
+                quote: "The mobile app they built for us feels like it came from a $200M company. Their process is world-class.",
+                name: "Priya Sharma",
+                title: "Product, Vesper Finance",
+                avatar: "📲"
+            }
+        ];
+        
+        let currentTestimonial = 0;
+        
+        function renderTestimonials() {
+            const container = document.getElementById("testimonial-container");
+            container.innerHTML = "";
+            
+            testimonials.forEach((t, index) => {
+                const div = document.createElement("div");
+                div.className = `glass p-8 rounded-3xl border border-white/10 ${index === 1 ? 'scale-105 border-cyan-300/30' : ''}`;
+                div.innerHTML = `
+                    <div class="text-6xl mb-8 opacity-10">${t.avatar}</div>
+                    <div class="italic text-lg leading-tight">"${t.quote}"</div>
+                    <div class="mt-12 flex items-center gap-x-4">
+                        <div class="w-9 h-9 bg-white/10 rounded-2xl flex items-center justify-center text-2xl">${t.avatar}</div>
+                        <div>
+                            <div class="font-medium">${t.name}</div>
+                            <div class="text-xs text-white/40">${t.title}</div>
+                        </div>
+                    </div>
+                `;
+                container.append(div);
+            });
+        }
+        
+        function nextTestimonial() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            const container = document.getElementById("testimonial-container");
+            container.style.opacity = 0;
+            
+            setTimeout(() => {
+                renderTestimonials();
+                container.style.transitionDuration = "600ms";
+                container.style.opacity = 1;
+            }, 220);
+        }
+        
+        function prevTestimonial() {
+            currentTestimonial = (currentTestimonial - 1 + testimonials.length) % testimonials.length;
+            const container = document.getElementById("testimonial-container");
+            container.style.opacity = 0;
+            
+            setTimeout(() => {
+                renderTestimonials();
+                container.style.transitionDuration = "600ms";
+                container.style.opacity = 1;
+            }, 220);
+        }
+        
+        // FAQ data
+        const faqs = [
+            {
+                q: "How long does a typical project take?",
+                a: "Most web and mobile projects take between 8 and 14 weeks from kickoff to launch. AI chatbot implementations can be delivered in as little as 3 weeks."
+            },
+            {
+                q: "Do you work with startups or only large companies?",
+                a: "We work with both. Our sweet spot is ambitious Series A-C startups and mid-market companies that want enterprise-grade digital products without the enterprise price tag."
+            },
+            {
+                q: "What does the discovery phase include?",
+                a: "We conduct stakeholder interviews, competitor analysis, user research, and create a detailed product roadmap, technical specification and interactive prototype."
+            },
+            {
+                q: "Do you provide ongoing support after launch?",
+                a: "Yes. All projects include 30 days of complimentary support. We also offer monthly retainers for continued iteration, feature development and performance monitoring."
+            }
+        ];
+        
+        function renderFAQs() {
+            const container = document.getElementById("faq-list");
+            container.innerHTML = "";
+            
+            faqs.forEach((faq, i) => {
+                const details = document.createElement("details");
+                details.className = "group border border-white/10 bg-zinc-900 rounded-3xl px-8 py-6 mb-4 open:bg-zinc-800 transition-all";
+                details.innerHTML = `
+                    <summary class="flex items-center justify-between cursor-pointer list-none">
+                        <div class="font-medium">${faq.q}</div>
+                        <div class="transition-transform group-open:rotate-45 text-3xl text-cyan-400 leading-none">+</div>
+                    </summary>
+                    <div class="text-white/60 pt-6 text-[15.2px] leading-relaxed">
+                        ${faq.a}
+                    </div>
+                `;
+                container.append(details);
+            });
+        }
+        
+        // Fake counters
+        function animateCounters() {
+            const counters = [
+                { id: null, target: 87, suffix: "+" },
+                { id: null, target: 100, suffix: "%" }
+            ];
+            
+            // We don't have visible counters in HTML but we can simulate in stats if added
+            console.log('%cCounters would animate here in full version', 'font-size:10px;color:#22d3ee');
+        }
+        
+        function smoothScrollTo(section) {
+            let el;
+            
+            switch(section) {
+                case 'services':
+                    el = document.getElementById("services");
+                    break;
+                case 'work':
+                    el = document.getElementById("work");
+                    break;
+                case 'process':
+                    el = document.getElementById("process");
+                    break;
+                case 'about':
+                    el = document.getElementById("about");
+                    break;
+                case 'insights':
+                    el = document.getElementById("insights");
+                    break;
+                default:
+                    el = document.getElementById(section);
+            }
+            
+            if (el) {
+                const navHeight = 80;
+                const topPos = el.getBoundingClientRect().top + window.scrollY - navHeight;
+                window.scrollTo({ top: topPos, behavior: "smooth" });
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const menu = document.getElementById("mobile-menu");
+            const icon = document.getElementById("menu-icon");
+            
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+                icon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6h12v12" />
+                `;
+            } else {
+                menu.classList.add("hidden");
+                icon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                `;
+            }
+        }
+        
+        function showContactModal() {
+            const modal = document.getElementById("contact-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            // Reset form
+            document.getElementById("contact-form").reset();
+        }
+        
+        function hideContactModal() {
+            const modal = document.getElementById("contact-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+        
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector("button");
+            const originalText = btn.innerHTML;
+            
+            btn.style.transitionDuration = "0ms";
+            btn.innerHTML = `
+                <span class="inline-block animate-spin mr-3">⟳</span>
+                SENDING...
+            `;
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = "THANK YOU ✨";
+                
+                setTimeout(() => {
+                    hideContactModal();
+                    
+                    // Reset button for next time
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }, 1200);
+                }, 1700);
+            }, 1250);
+        }
+        
+        function showProjectModal(n) {
+            const modal = document.getElementById("project-modal");
+            const imageDiv = document.getElementById("modal-image");
+            const titleEl = document.getElementById("modal-title");
+            const categoryEl = document.getElementById("modal-category");
+            const descEl = document.getElementById("modal-desc");
+            const techEl = document.getElementById("modal-tech");
+            
+            const projects = [
+                {
+                    title: "Pulse Banking OS",
+                    category: "FINTECH PLATFORM",
+                    image: "https://picsum.photos/id/201/1200/800",
+                    desc: "Complete redesign and rebuild of a treasury management system used by 400+ startups. Built with real-time data pipelines, beautiful interactive charts and bank integrations.",
+                    tech: "Next.js • Recharts • Plaid • Supabase",
+                    date: "FEB 2024"
+                },
+                {
+                    title: "Vita • AI Health Coach",
+                    category: "HEALTH & WELLNESS",
+                    image: "https://picsum.photos/id/29/1200/800",
+                    desc: "A beautiful mobile experience that uses on-device ML and GPT-4 to create personalized daily wellness plans, track biometrics and motivate users with delightful animations.",
+                    tech: "React Native • TensorFlow Lite • Firebase",
+                    date: "JAN 2024"
+                },
+                {
+                    title: "Lumina Content Engine",
+                    category: "MARKETING SAAS",
+                    image: "https://picsum.photos/id/160/1200/800",
+                    desc: "An AI platform that generates, schedules and distributes marketing content across all channels. Includes a custom 3D dashboard with live campaign performance metrics.",
+                    tech: "Three.js • Node • Postgres • OpenAI",
+                    date: "OCT 2023"
+                }
+            ];
+            
+            const p = projects[n % projects.length];
+            
+            imageDiv.style.backgroundImage = `url('${p.image}')`;
+            titleEl.textContent = p.title;
+            categoryEl.textContent = p.category;
+            descEl.textContent = p.desc;
+            techEl.textContent = p.tech;
+            
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+        
+        function hideProjectModal() {
+            const modal = document.getElementById("project-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+        
+        function viewServiceDetail(n) {
+            const services = [
+                "Web Development", 
+                "Mobile Applications", 
+                "AI & Chatbots", 
+                "UI/UX Design"
+            ];
+            const message = `Thank you for your interest in our ${services[n]} offering.\n\nOur team will be in touch shortly with a custom proposal.`;
+            alert(message);
+        }
+        
+        function viewAllWork() {
+            window.scrollTo({
+                top: document.getElementById("work").offsetTop - 80,
+                behavior: "smooth"
+            });
+        }
+        
+        function fakeClick(el) {
+            el.style.transitionDuration = "80ms";
+            el.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                el.style.transitionDuration = "420ms";
+                el.style.transform = "";
+            }, 120);
+        }
+        
+        // Keyboard shortcuts
+        function handleKeys(e) {
+            if (e.metaKey && e.key === "k") {
+                e.preventDefault();
+                showContactModal();
+            }
+        }
+        
+        // Main initialization
+        function initialize() {
+            initializeTailwind();
+            
+            // Boot Three.js
+            setTimeout(() => {
+                initThree();
+            }, 120);
+            
+            // Render dynamic components
+            renderTestimonials();
+            renderFAQs();
+            
+            // Make the bot status pulse
+            const botStatus = document.getElementById("bot-status");
+            if (botStatus) {
+                setInterval(() => {
+                    botStatus.style.opacity = 0.4;
+                    setTimeout(() => {
+                        botStatus.style.opacity = 1;
+                    }, 240);
+                }, 2100);
+            }
+            
+            // Demo counter
+            animateCounters();
+            
+            // Keyboard
+            document.addEventListener("keydown", handleKeys);
+            
+            // Make navbar transparent to solid on scroll
+            const nav = document.querySelector("nav");
+            let lastScroll = 0;
+            
+            window.addEventListener("scroll", () => {
+                const currentScroll = window.scrollY;
+                
+                if (currentScroll > 120) {
+                    nav.style.backgroundColor = "rgb(9 9 11 / 0.97)";
+                    nav.style.boxShadow = "0 10px 15px -3px rgb(0 0 0)";
+                } else {
+                    nav.style.backgroundColor = "rgb(9 9 11 / 0.7)";
+                    nav.style.boxShadow = "none";
+                }
+                
+                lastScroll = currentScroll;
+            });
+            
+            // Click anywhere on hero canvas to give it focus (demo interaction)
+            const canvas = document.getElementById("hero-canvas");
+            if (canvas) {
+                canvas.addEventListener("click", () => {
+                    if (mainMesh) {
+                        mainMesh.rotation.y += 1.2;
+                    }
+                });
+            }
+            
+            // Demo: change terminal text randomly
+            const terminals = document.querySelectorAll('.terminal');
+            if (terminals.length) {
+                setInterval(() => {
+                    if (terminals[0]) {
+                        const states = ["NEURAL CORE ONLINE", "MODEL FINE-TUNED", "TOKEN LIMIT 128K", "CONTEXT LOADED"];
+                        terminals[0].textContent = states[Math.floor(Math.random() * states.length)];
+                    }
+                }, 4500);
+            }
+            
+            console.log('%c✅ Codiq.dev premium portfolio ready. Built as a single-file demonstration with Three.js + Tailwind.', 
+                        'font-family:monospace;color:#67e8f9;font-size:10px');
+        }
+        
+        // Auto start
+        window.onload = initialize;
+    </script>
+</body>
+</html>
